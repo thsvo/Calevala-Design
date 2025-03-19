@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-
+import logo from "@/public/logo.png"
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
@@ -30,7 +30,7 @@ export default function Navbar() {
     <div className="navbar bg-black/80 backdrop-blur-sm z-50 sticky top-0">
       <div className="navbar-start lg:pl-20 lg:pt-2">
         <Link href="/" className="flex items-center"> 
-          <Image src="https://cdn.codeopx.com/calevala1.png" alt="Calevala Interactive" width={100} height={100} className="h-auto" /> 
+          <Image src={logo} alt="Calevala Interactive" width={100} height={100} className="h-auto" /> 
         </Link>
       </div>
 
@@ -53,8 +53,8 @@ export default function Navbar() {
 
       <div className="navbar-end">
         {/* Mobile menu */}
-        <div className="dropdown dropdown-end lg:hidden">
-          <div tabIndex={0} role="button" className="btn btn-ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <div className="lg:hidden">
+          <button className="btn btn-ghost" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -64,22 +64,21 @@ export default function Navbar() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
-          </div>
-          <ul
-            tabIndex={0}
-            className={`menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-black rounded-box w-52 ${isMenuOpen ? "block" : "hidden"}`}
-          >
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`${isActive(link.href) ? "text-green-500 font-bold" : "text-yellow-400 hover:text-yellow-300"}`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          </button>
+          {isMenuOpen && (
+            <ul className="menu menu-sm absolute right-0 mt-3 p-2 shadow bg-black rounded-box w-52">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className={`${isActive(link.href) ? "text-green-500 font-bold" : "text-yellow-400 hover:text-yellow-300"}`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>
